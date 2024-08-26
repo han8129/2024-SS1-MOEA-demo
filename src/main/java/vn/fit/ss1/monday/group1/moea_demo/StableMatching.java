@@ -14,8 +14,6 @@ public class StableMatching extends AbstractProblem {
     private static final Faker faker = new Faker();
 
     public StableMatching() {
-        // The number of variables is equal to the number of students
-        // 2 objectives: minimize the number of students without a dormitory and minimize overcrowding
         super(1 ,1 , 0);
     }
 
@@ -51,7 +49,9 @@ public class StableMatching extends AbstractProblem {
         for (int i = 0; i < matches.length - 1; i++) {
             for (int j = 0; j < 1000; j++) {
                 int value = faker.number().numberBetween(0 , DOM_PREFS.length);
-                OptionalInt duplicate = Arrays.stream(matches).filter(match -> value == match).findFirst();
+                OptionalInt duplicate = Arrays.stream(matches)
+                    .filter(match -> value == match)
+                    .findFirst();
 
                 if (duplicate.isEmpty()) {
                     matches[i] = value;

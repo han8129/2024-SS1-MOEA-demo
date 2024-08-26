@@ -17,20 +17,19 @@ public class GaleShapley {
 
                 if (currentDomRank == -1) {
                     // get offers' ranking
-                    int finalStudentIndex1 = studentIndex;
-
-
                     for (Integer offer : getOffers(domPrefs, matches)) {
-                        if (matches[finalStudentIndex1] > getRank(offer, studentPrefs[finalStudentIndex1]) || matches[finalStudentIndex1] == -1)
+                        if (matches[studentIndex] > getRank(offer, studentPrefs[studentIndex]) || matches[studentIndex] == -1)
                         {
-                            matches[finalStudentIndex1] = offer;
+                            matches[studentIndex] = offer;
                         }
                     }
                 } else {
                     // rematch
                     for (int domIndex: getOffers(domPrefs, matches)) {
                         int finalStudentIndex = studentIndex;
-                        OptionalInt offerRank = Arrays.stream(studentPrefs[finalStudentIndex]).filter(x -> x == finalStudentIndex).findFirst();
+                        OptionalInt offerRank = Arrays.stream(studentPrefs[finalStudentIndex])
+                            .filter(x -> finalStudentIndex == x)
+                            .findFirst();
                         if (offerRank.isPresent()) {
                             if (currentDomRank > offerRank.getAsInt()) {
                                 matches[finalStudentIndex] = offerRank.getAsInt();
@@ -49,10 +48,10 @@ public class GaleShapley {
         for (int i = 0; i < domPrefs.length; ++i) {
             final int finalI = i;
             // find unpaired dormitory
-            if (Arrays.stream(matches).filter(domIndex -> {
-                return domIndex == finalI;
-            }).findAny().isEmpty())
-            {
+            if (Arrays.stream(matches)
+                .filter(domIndex -> { return domIndex == finalI; })
+                .findAny()
+                .isEmpty()) {
                 offers.add(i);
             }
 
