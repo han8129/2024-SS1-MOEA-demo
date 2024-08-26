@@ -9,9 +9,9 @@ import org.moeaframework.problem.AbstractProblem;
 import java.util.*;
 
 public class StableMatching extends AbstractProblem {
-    private static int[][] DOM_PREFS = {{0,1,2}, {2, 0, 1}, {1, 2, 0}};
-    private static int[][] STUDENT_PREFS = {{2, 0, 1}, {1, 2, 0}, {0,1,2}};
-    private static Faker faker = new Faker();
+    public static int[][] DOM_PREFS = {{0,1,2}, {2, 0, 1}, {1, 2, 0}};
+    public static int[][] STUDENT_PREFS = {{2, 0, 1}, {2, 1, 0}, {2,1,0}};
+    private static final Faker faker = new Faker();
 
     public StableMatching() {
         // The number of variables is equal to the number of students
@@ -37,8 +37,8 @@ public class StableMatching extends AbstractProblem {
                 : 99;
         }
 
-        // the higher the total ranking the better
-        solution.setObjective(0, 0);
+        // the lower the total ranking the better
+        solution.setObjective(0, Arrays.stream(ranks).sum());
 
         // Have no constraint
     }
@@ -46,7 +46,6 @@ public class StableMatching extends AbstractProblem {
     @Override
     public Solution newSolution() {
         Solution solution = new Solution(1, 1 ,0);
-
         int[] matches = new int[StableMatching.STUDENT_PREFS.length];
 
         for (int i = 0; i < matches.length - 1; i++) {
