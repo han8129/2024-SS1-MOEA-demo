@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 public class GaleShapley {
     // return array of order by student pref, with element being dormitory index
     public static int[] match(int[][] studentPrefs, int[][] domPrefs) {
-        int[] matches = Arrays.stream(new int[studentPrefs.length]).map(x->-1).toArray();
+        int[] matches = Arrays.stream(new int[studentPrefs.length])
+            .map(x->-1)
+            .toArray();
 
         // if there exist -1 in matches array
         while (Arrays.stream(matches).filter(x -> x == -1).findAny().isPresent()) {
